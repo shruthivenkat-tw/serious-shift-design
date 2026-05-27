@@ -24,7 +24,7 @@ export default function ThinkerSection() {
         <h2
           className="text-black font-bold mb-8"
           style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "'Urbanist', sans-serif",
             fontSize: "clamp(22px, 2.2vw, 32px)",
           }}
         >

@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="flex flex-col">
         <span
           className="font-bold text-white text-base leading-tight"
-          style={{ fontFamily: "'Fraunces', serif", letterSpacing: "-0.02em" }}
+          style={{ fontFamily: "'Urbanist', sans-serif", letterSpacing: "-0.02em" }}
         >
           Serious Shift
         </span>

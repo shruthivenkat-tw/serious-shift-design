@@ -25,7 +25,7 @@ export default function CTASection() {
           <h2
             className="text-black font-black leading-tight mb-4"
             style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Urbanist', sans-serif",
               fontSize: "clamp(26px, 3vw, 48px)",
               letterSpacing: "-0.02em",
             }}

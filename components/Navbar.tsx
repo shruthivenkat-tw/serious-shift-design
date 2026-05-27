@@ -1,87 +1,104 @@
-"use client";
-
-import { WorldKey } from "@/app/data";
-
-interface NavbarProps {
-  activeWorld: WorldKey;
-  onWorldChange: (world: WorldKey) => void;
-}
-
-const navLinks = ["Fellows", "Debates", "Groups", "Signals"];
-
-const worldTabs: { key: WorldKey; label: string; color: string; bg: string }[] = [
-  { key: "society", label: "SOCIETY", color: "#22d3ee", bg: "rgba(34,211,238,0.12)" },
-  { key: "economy", label: "ECONOMY", color: "#e879f9", bg: "rgba(232,121,249,0.12)" },
-  { key: "climate", label: "CLIMATE", color: "#fb7185", bg: "rgba(251,113,133,0.12)" },
-  {
-    key: "organisations",
-    label: "ORGANISATIONS",
-    color: "#34d399",
-    bg: "rgba(52,211,153,0.12)",
-  },
-];
-
-export default function Navbar({ activeWorld, onWorldChange }: NavbarProps) {
-  const activeTab = worldTabs.find((t) => t.key === activeWorld)!;
+export default function Navbar() {
+  const navItems = ["Thinkers", "Predictions", "Keynote", "Community"];
 
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3"
       style={{
-        background: "rgba(12,12,12,0.85)",
-        backdropFilter: "blur(16px)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "#ffffff",
+        borderBottom: "1px solid rgba(0,0,0,0.08)",
       }}
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 flex-shrink-0">
-        <div className="flex flex-col">
+      <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Asterisk / star icon */}
+        <span
+          style={{
+            fontSize: "22px",
+            color: "#000",
+            fontWeight: 900,
+            lineHeight: 1,
+            fontFamily: "sans-serif",
+          }}
+        >
+          ✳
+        </span>
+        <div className="flex flex-col leading-tight">
           <span
-            className="font-bold text-white leading-tight"
-            style={{ fontFamily: "'Fraunces', serif", fontSize: "18px", letterSpacing: "-0.02em" }}
+            style={{
+              fontFamily: "'Urbanist', sans-serif",
+              fontWeight: 800,
+              fontSize: "16px",
+              color: "#000",
+              letterSpacing: "-0.01em",
+            }}
           >
             Serious Shift
           </span>
-          <span className="text-white/40 text-xs tracking-widest uppercase" style={{ fontSize: "9px" }}>
-            Seriously TrendWatching
+          <span
+            style={{
+              fontFamily: "'Urbanist', sans-serif",
+              fontWeight: 400,
+              fontSize: "9px",
+              color: "rgba(0,0,0,0.35)",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
+            powered by TrendWatching
           </span>
         </div>
       </div>
 
-      {/* Nav links */}
-      <div className="hidden md:flex items-center gap-7">
-        {navLinks.map((link) => (
+      {/* Nav links in a pill container */}
+      <div
+        className="hidden md:flex items-center gap-1"
+        style={{
+          background: "rgba(0,0,0,0.04)",
+          borderRadius: "999px",
+          padding: "4px 6px",
+          border: "1px solid rgba(0,0,0,0.07)",
+        }}
+      >
+        {navItems.map((item, idx) => (
           <a
-            key={link}
+            key={item}
             href="#"
-            className="text-white/60 hover:text-white transition-colors text-sm font-medium tracking-wide"
+            className="transition-colors"
+            style={{
+              fontFamily: "'Urbanist', sans-serif",
+              fontWeight: 600,
+              fontSize: "13px",
+              color: idx === 0 ? "#000" : "rgba(0,0,0,0.45)",
+              padding: "5px 14px",
+              borderRadius: "999px",
+              background: idx === 0 ? "#fff" : "transparent",
+              boxShadow: idx === 0 ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+              textDecoration: "none",
+            }}
           >
-            {link}
+            {item}
           </a>
         ))}
       </div>
 
-      {/* World tabs */}
-      <div className="flex items-center gap-2">
-        {worldTabs.map((tab) => {
-          const isActive = tab.key === activeWorld;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => onWorldChange(tab.key)}
-              className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full transition-all duration-200"
-              style={{
-                color: isActive ? tab.color : "rgba(255,255,255,0.4)",
-                background: isActive ? tab.bg : "transparent",
-                border: `1px solid ${isActive ? tab.color : "rgba(255,255,255,0.1)"}`,
-                letterSpacing: "0.08em",
-              }}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+      {/* Right CTA */}
+      <button
+        style={{
+          fontFamily: "'Urbanist', sans-serif",
+          fontWeight: 700,
+          fontSize: "13px",
+          color: "#fff",
+          background: "#000",
+          padding: "8px 20px",
+          borderRadius: "999px",
+          border: "none",
+          cursor: "pointer",
+          letterSpacing: "0.01em",
+        }}
+      >
+        Get Access
+      </button>
     </nav>
   );
 }

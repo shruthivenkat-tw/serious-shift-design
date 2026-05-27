@@ -1,4 +1,4 @@
-export type WorldKey = "society" | "economy" | "climate" | "organisations";
+export type WorldKey = "society" | "organisations" | "economy" | "consumers";
 
 export interface Thinker {
   name: string;
@@ -11,17 +11,18 @@ export interface Thinker {
 
 export interface World {
   key: WorldKey;
-  label: string;
+  scenario: string;        // e.g. "SCENARIO 1"
+  label: string;           // e.g. "SOCIETY"
   title: string;
+  tag: string;             // e.g. "ACCELERATING NOW"
   quote: string;
-  tags: string[];
-  accentColor: string;
+  dateRange: string;       // e.g. "2027-2032"
+  thinkerCount: string;    // e.g. "21 THINKERS"
   accentColorHex: string;
-  gradientClass: string;
   bgFrom: string;
   bgVia: string;
   bgTo: string;
-  vsColor: string;
+  chipColor: string;       // active chip fill colour
   left: Thinker;
   right: Thinker;
 }
@@ -29,19 +30,20 @@ export interface World {
 export const worlds: World[] = [
   {
     key: "society",
+    scenario: "SCENARIO 1",
     label: "SOCIETY",
     title: "Governance Void,\nPower Rush",
-    quote: '“What little the void allows is now governing AI”',
-    tags: ["ACCELERATING AI", "SOCIETY"],
-    accentColor: "text-cyan-400",
-    accentColorHex: "#22d3ee",
-    gradientClass: "bg-governance-gradient",
+    tag: "ACCELERATING NOW",
+    quote: '"Who fills the void when no one is governing AI?"',
+    dateRange: "2027-2032",
+    thinkerCount: "21 THINKERS",
+    accentColorHex: "#3b82f6",
     bgFrom: "#0a1628",
-    bgVia: "#0d2447",
+    bgVia: "#1e3a6e",
     bgTo: "#0c0e1d",
-    vsColor: "#22d3ee",
+    chipColor: "#2563eb",
     left: {
-      name: "Reid Kurzweil",
+      name: "Reid Kurzwell",
       role: "Futurist",
       org: "Singular Institute",
       stance: "ACCELERATE",
@@ -50,92 +52,29 @@ export const worlds: World[] = [
         "Distributed AI leadership — governance becomes a ground, and then new forms of authority emerge from the building.",
     },
     right: {
-      name: "Jon Tan",
-      role: "Policy Director",
-      org: "Future of Work Lab",
+      name: "Jian Tao",
+      role: "Professor of Political Economy",
+      org: "LSE",
       stance: "SKEPTIC",
-      stanceColor: "#22d3ee",
+      stanceColor: "#60a5fa",
       description:
         "A vacuum in formal control doesn't mean freedom — it means the fastest, best-funded AI fills the gap, usually to the public's loss.",
     },
   },
   {
-    key: "economy",
-    label: "ECONOMY",
-    title: "Post-Capital\nLabour",
-    quote: '“The government decides what labour has long given up”',
-    tags: ["INDUSTRY", "ECONOMY"],
-    accentColor: "text-fuchsia-400",
-    accentColorHex: "#e879f9",
-    gradientClass: "bg-postcapital-gradient",
-    bgFrom: "#0f0a1e",
-    bgVia: "#1e1b4b",
-    bgTo: "#2d1b4e",
-    vsColor: "#e879f9",
-    left: {
-      name: "Nadia Voos",
-      role: "Labour Economist",
-      org: "New Work Institute",
-      stance: "POST-CAPIT",
-      stanceColor: "#a855f7",
-      description:
-        "Distributed labour structures — capital becomes a liability, and then new forms of compensation emerge from the margins.",
-    },
-    right: {
-      name: "Henrick Lund",
-      role: "CEO",
-      org: "Nordic Ventures",
-      stance: "DOOMER",
-      stanceColor: "#e879f9",
-      description:
-        "A vacuum in formal employment doesn't create opportunity — it means the most exploitative capital structure fills the gap.",
-    },
-  },
-  {
-    key: "climate",
-    label: "CLIMATE",
-    title: "Agentic\nEveryday",
-    quote: '“How do you hold reality when its powers claim your existence”',
-    tags: ["ECONOMY", "CLIMATE"],
-    accentColor: "text-rose-400",
-    accentColorHex: "#fb7185",
-    gradientClass: "bg-agentic-gradient",
-    bgFrom: "#0f0a14",
-    bgVia: "#3b0764",
-    bgTo: "#7f1d1d",
-    vsColor: "#fb7185",
-    left: {
-      name: "Mir Tanaka",
-      role: "Tech Anthropologist",
-      org: "Kyoto Digital Lab",
-      stance: "BRAND FURST",
-      stanceColor: "#f43f5e",
-      description:
-        "Distributed agency structures — autonomy becomes the ground, and then new forms of human identity emerge from the friction.",
-    },
-    right: {
-      name: "Owen Park",
-      role: "Climate Strategist",
-      org: "Green Futures",
-      stance: "PRAGMATIST",
-      stanceColor: "#fb7185",
-      description:
-        "Agentic systems don't create equality — they amplify existing power structures and climate inequity at scale.",
-    },
-  },
-  {
     key: "organisations",
+    scenario: "SCENARIO 2",
     label: "ORGANISATIONS",
     title: "The Liquid\nFirm",
-    quote: '“Find last, definitely where it is to lead and make future Economy”',
-    tags: ["CONNECT", "ORGANISATIONS"],
-    accentColor: "text-emerald-400",
+    tag: "DISSOLVING STRUCTURE",
+    quote: '"What happens when the company is no longer the unit of work?"',
+    dateRange: "2026-2031",
+    thinkerCount: "18 THINKERS",
     accentColorHex: "#34d399",
-    gradientClass: "bg-liquidfirm-gradient",
     bgFrom: "#061a1a",
     bgVia: "#0f3c38",
     bgTo: "#134e4a",
-    vsColor: "#34d399",
+    chipColor: "#059669",
     left: {
       name: "Alex Proenza",
       role: "Org Designer",
@@ -146,22 +85,88 @@ export const worlds: World[] = [
         "Distributed firm structures — hierarchy becomes a liability, and then new forms of collective intelligence emerge from fluidity.",
     },
     right: {
-      name: "Jon Tan",
-      role: "Policy Director",
-      org: "Future of Work Lab",
-      stance: "PRAGMATIST",
+      name: "Nadia Voos",
+      role: "Labour Economist",
+      org: "New Work Institute",
+      stance: "SKEPTIC",
       stanceColor: "#34d399",
       description:
         "Liquid organisations don't self-organise well — they require invisible governance structures that entrench power differently.",
     },
   },
+  {
+    key: "economy",
+    scenario: "SCENARIO 3",
+    label: "ECONOMY",
+    title: "Post-Capital\nLabour",
+    tag: "INDUSTRY SHIFT",
+    quote: '"The government decides what labour has long given up"',
+    dateRange: "2027-2035",
+    thinkerCount: "24 THINKERS",
+    accentColorHex: "#e879f9",
+    bgFrom: "#0f0a1e",
+    bgVia: "#2e1065",
+    bgTo: "#1e1b4b",
+    chipColor: "#9333ea",
+    left: {
+      name: "Henrick Lund",
+      role: "CEO",
+      org: "Nordic Ventures",
+      stance: "POST-CAPIT",
+      stanceColor: "#a855f7",
+      description:
+        "Distributed labour structures — capital becomes a liability, and new forms of compensation emerge from the margins.",
+    },
+    right: {
+      name: "Mir Tanaka",
+      role: "Tech Anthropologist",
+      org: "Kyoto Digital Lab",
+      stance: "DOOMER",
+      stanceColor: "#e879f9",
+      description:
+        "A vacuum in formal employment doesn't create opportunity — it means the most exploitative capital structure fills the gap.",
+    },
+  },
+  {
+    key: "consumers",
+    scenario: "SCENARIO 4",
+    label: "CONSUMERS",
+    title: "Agentic\nEveryday",
+    tag: "BEHAVIOUR CHANGE",
+    quote: '"How do you hold reality when its powers claim your existence?"',
+    dateRange: "2025-2030",
+    thinkerCount: "19 THINKERS",
+    accentColorHex: "#fb7185",
+    bgFrom: "#0f0a14",
+    bgVia: "#4c0519",
+    bgTo: "#7f1d1d",
+    chipColor: "#e11d48",
+    left: {
+      name: "Owen Park",
+      role: "Climate Strategist",
+      org: "Green Futures",
+      stance: "BRAND FURST",
+      stanceColor: "#f43f5e",
+      description:
+        "Distributed agency structures — autonomy becomes the ground, and new forms of human identity emerge from the friction.",
+    },
+    right: {
+      name: "Jian Tao",
+      role: "Professor of Political Economy",
+      org: "LSE",
+      stance: "PRAGMATIST",
+      stanceColor: "#fb7185",
+      description:
+        "Agentic systems don't create equality — they amplify existing power structures and climate inequity at scale.",
+    },
+  },
 ];
 
 export const thinkers = [
-  { name: "Reid Kurzweil", count: 5,   label: "ACCELERATE", labelColor: "#ef4444", world: "Governance Void" },
-  { name: "Nadia Voos",    count: 207, label: "SKEPTIC",     labelColor: "#a855f7", world: "Post-Capital" },
-  { name: "Henrick Lund",  count: 32,  label: "POST-CAPIT",  labelColor: "#6366f1", world: "Agentic" },
-  { name: "Mir Tanaka",    count: 10,  label: "DOOMER",      labelColor: "#f59e0b", world: "Liquid Firm" },
-  { name: "Owen Park",     count: 43,  label: "BRAND FURST", labelColor: "#ec4899", world: "Governance Void" },
-  { name: "Alex Proenza",  count: 61,  label: "PRAGMATIST",  labelColor: "#14b8a6", world: "Liquid Firm" },
+  { name: "Reid Kurzwell",  count: 5,   label: "ACCELERATE",  labelColor: "#ef4444" },
+  { name: "Nadia Voos",    count: 207,  label: "SKEPTIC",     labelColor: "#a855f7" },
+  { name: "Henrick Lund",  count: 32,   label: "POST-CAPIT",  labelColor: "#6366f1" },
+  { name: "Mir Tanaka",    count: 10,   label: "DOOMER",      labelColor: "#f59e0b" },
+  { name: "Owen Park",     count: 43,   label: "BRAND FURST", labelColor: "#ec4899" },
+  { name: "Alex Proenza",  count: 61,   label: "PRAGMATIST",  labelColor: "#14b8a6" },
 ];

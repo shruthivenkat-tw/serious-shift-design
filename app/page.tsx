@@ -15,8 +15,8 @@ export default function Home() {
   const activeWorld = worlds.find((w) => w.key === activeWorldKey)!;
 
   return (
-    <main style={{ background: "#0C0C0C" }}>
-      <Navbar activeWorld={activeWorldKey} onWorldChange={setActiveWorldKey} />
+    <main>
+      <Navbar />
       <HeroSection activeWorld={activeWorld} onWorldChange={setActiveWorldKey} />
       <ThinkerSection />
       <WorldsSection />

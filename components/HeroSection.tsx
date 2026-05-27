@@ -1,247 +1,302 @@
 "use client";
 
-import { World, WorldKey } from "@/app/data";
+import { World, WorldKey, worlds } from "@/app/data";
 
 interface HeroSectionProps {
   activeWorld: World;
   onWorldChange: (world: WorldKey) => void;
 }
 
-const filterChips = [
-  { label: "SUBJECT + SOCIETY", borderColor: "#FF007A" },
-  { label: "SUBJECT + ORGANIZATIONS", borderColor: "#8215B5" },
-  { label: "SUBJECT + ECONOMY", borderColor: "rgba(255,255,255,0.15)" },
-  { label: "CONNECT + OTHERS", borderColor: "rgba(255,255,255,0.15)" },
+const U = "'Urbanist', sans-serif";
+
+const scenarioChips = [
+  { key: "society" as WorldKey,       label: "SCENARIO 1", sublabel: "SOCIETY",       chipColor: "#2563eb", dotColor: "#3b82f6" },
+  { key: "organisations" as WorldKey, label: "SCENARIO 2", sublabel: "ORGANISATIONS", chipColor: "#059669", dotColor: "#34d399" },
+  { key: "economy" as WorldKey,       label: "SCENARIO 3", sublabel: "ECONOMY",        chipColor: "#9333ea", dotColor: "#e879f9" },
+  { key: "consumers" as WorldKey,     label: "SCENARIO 4", sublabel: "CONSUMERS",      chipColor: "#e11d48", dotColor: "#fb7185" },
 ];
 
-const stats = [
-  { value: "6", label: "Scenarios" },
-  { value: "16", label: "Points" },
-  { value: "72", label: "Thinkers" },
-  { value: "490", label: "AI Cues" },
-];
+export default function HeroSection({ activeWorld, onWorldChange }: HeroSectionProps) {
+  const activeChip = scenarioChips.find((c) => c.key === activeWorld.key)!;
 
-export default function HeroSection({ activeWorld }: HeroSectionProps) {
   return (
-    <section className="relative min-h-screen flex items-stretch pt-14" style={{ background: "#0C0C0C" }}>
+    <section className="relative flex items-stretch pt-14" style={{ minHeight: "100vh" }}>
       <div className="flex w-full">
-        {/* ── Left column ── */}
-        <div className="flex flex-col justify-center px-12 py-16 w-1/2 xl:w-5/12" style={{ maxWidth: 700 }}>
+
+        {/* ── Left column — WHITE background ── */}
+        <div
+          className="flex flex-col justify-center px-12 py-16"
+          style={{ width: "45%", background: "#ffffff", minHeight: "100vh" }}
+        >
           {/* Headline */}
           <h1
-            className="text-white leading-[1.05] mb-4"
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: "clamp(40px, 4.5vw, 72px)",
-              fontWeight: 700,
-            }}
+            className="leading-[1.05] mb-5"
+            style={{ fontFamily: U, fontSize: "clamp(40px, 4.2vw, 68px)", color: "#000" }}
           >
-            Four worlds are{" "}
-            <em
-              className="not-italic font-black"
-              style={{
-                fontStyle: "italic",
-                fontFamily: "'Fraunces', serif",
-              }}
-            >
-              coming.
-            </em>
+            <span style={{ fontWeight: 400 }}>Four worlds are </span>
+            <span style={{ fontWeight: 800, fontStyle: "italic" }}>coming.</span>
           </h1>
+
+          {/* Sub-headline */}
           <h2
-            className="text-white/80 leading-snug mb-5"
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: "clamp(22px, 2.2vw, 36px)",
-              fontWeight: 400,
-            }}
+            className="leading-snug mb-5"
+            style={{ fontFamily: U, fontSize: "clamp(18px, 1.8vw, 28px)", fontWeight: 300, color: "rgba(0,0,0,0.65)" }}
           >
-            The thinkers can&apos;t
-            <br />
-            agree which one.
+            The thinkers can&apos;t agree which one.
           </h2>
 
-          {/* Description */}
-          <p className="text-white/50 text-sm leading-relaxed mb-8" style={{ maxWidth: 480 }}>
-            Over the arc of the next decade, debate about what direction we&apos;re on over an
-            unprecedented divergence of visions for collective futures.
+          {/* Body */}
+          <p
+            className="leading-relaxed mb-9"
+            style={{ fontFamily: U, fontSize: "14px", fontWeight: 400, color: "rgba(0,0,0,0.45)", maxWidth: 420 }}
+          >
+            Dive into any of the 4 worlds. Debate what others have to say.
           </p>
 
-          {/* Filter chips — row 1 */}
-          <div className="flex flex-wrap gap-2 mb-2">
-            {filterChips.slice(0, 2).map((chip) => (
-              <button
-                key={chip.label}
-                className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all hover:opacity-90"
-                style={{
-                  border: `1.5px solid ${chip.borderColor}`,
-                  color: chip.borderColor === "rgba(255,255,255,0.15)" ? "rgba(255,255,255,0.5)" : chip.borderColor,
-                  background: "transparent",
-                  letterSpacing: "0.07em",
-                }}
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
-          {/* Filter chips — row 2 */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {filterChips.slice(2).map((chip) => (
-              <button
-                key={chip.label}
-                className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all hover:opacity-90"
-                style={{
-                  border: `1.5px solid ${chip.borderColor}`,
-                  color: "rgba(255,255,255,0.35)",
-                  background: "transparent",
-                  letterSpacing: "0.07em",
-                }}
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Stats */}
-          <div
-            className="flex items-center gap-0"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "20px" }}
-          >
-            {stats.map((s, i) => (
-              <div key={s.label} className="flex items-center">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-white font-bold text-lg">{s.value}</span>
-                  <span className="text-white/40 text-xs font-medium tracking-wide">{s.label}</span>
-                </div>
-                {i < stats.length - 1 && (
-                  <span className="text-white/20 mx-4 text-lg">•</span>
-                )}
-              </div>
-            ))}
+          {/* Scenario chips */}
+          <div className="flex flex-col gap-2.5">
+            {scenarioChips.map((chip) => {
+              const isActive = chip.key === activeWorld.key;
+              return (
+                <button
+                  key={chip.key}
+                  onClick={() => onWorldChange(chip.key)}
+                  className="flex items-center gap-3 transition-all duration-200 text-left"
+                  style={{
+                    fontFamily: U,
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    padding: "10px 18px",
+                    borderRadius: "999px",
+                    border: isActive
+                      ? `1.5px solid ${chip.chipColor}`
+                      : "1.5px solid rgba(0,0,0,0.12)",
+                    background: isActive ? chip.chipColor : "transparent",
+                    color: isActive ? "#fff" : "rgba(0,0,0,0.45)",
+                    cursor: "pointer",
+                    width: "fit-content",
+                  }}
+                >
+                  <span>{chip.label}</span>
+                  <span style={{ opacity: 0.6 }}>•</span>
+                  <span>{chip.sublabel}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* ── Right column — Hero world card ── */}
-        <div className="flex-1 flex items-stretch relative overflow-hidden">
-          {/* Animated gradient card */}
+        {/* ── Right column — Dark world card ── */}
+        <div
+          className="flex-1 relative flex flex-col p-10 xl:p-14"
+          style={{
+            background: `radial-gradient(ellipse at 60% 20%, ${activeWorld.bgVia} 0%, ${activeWorld.bgFrom} 55%, ${activeWorld.bgTo} 100%)`,
+          }}
+        >
+          {/* Ambient glow */}
           <div
-            key={activeWorld.key}
-            className="flex-1 relative flex flex-col justify-between p-10 xl:p-14 transition-all duration-700"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(ellipse at 65% 25%, ${activeWorld.bgVia} 0%, ${activeWorld.bgFrom} 55%, ${activeWorld.bgTo} 100%)`,
-              borderRadius: "32px 0 0 0",
+              background: `radial-gradient(ellipse at 50% -10%, ${activeWorld.accentColorHex}28 0%, transparent 60%)`,
             }}
-          >
-            {/* Top row: tags + world badge */}
-            <div className="flex items-center justify-between mb-8">
+          />
+
+          <div className="relative z-10 flex flex-col h-full">
+            {/* Top row: "ACCELERATING NOW" tag + label badge */}
+            <div className="flex items-start justify-between mb-auto">
+              {/* Left: dot + status tag */}
               <div className="flex items-center gap-2">
-                {activeWorld.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded"
-                    style={{
-                      color: activeWorld.accentColorHex,
-                      background: `${activeWorld.accentColorHex}18`,
-                      border: `1px solid ${activeWorld.accentColorHex}30`,
-                      letterSpacing: "0.1em",
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <div
+                  className="rounded-full flex-shrink-0"
+                  style={{ width: "7px", height: "7px", background: activeChip.dotColor }}
+                />
+                <span
+                  style={{
+                    fontFamily: U,
+                    fontWeight: 700,
+                    fontSize: "10px",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.75)",
+                  }}
+                >
+                  {activeWorld.tag}
+                </span>
               </div>
-              <span
-                className="text-xs font-black tracking-widest uppercase px-4 py-1.5 rounded-full"
+
+              {/* Right: large dark rectangular label badge */}
+              <div
                 style={{
-                  color: activeWorld.accentColorHex,
-                  background: `${activeWorld.accentColorHex}20`,
-                  border: `1px solid ${activeWorld.accentColorHex}40`,
+                  fontFamily: U,
+                  fontWeight: 800,
+                  fontSize: "11px",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.85)",
+                  background: "rgba(0,0,0,0.45)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  padding: "7px 16px",
+                  borderRadius: "6px",
                 }}
               >
                 {activeWorld.label}
-              </span>
+              </div>
             </div>
 
             {/* World title */}
-            <div className="flex-1 flex flex-col justify-center mb-8">
+            <div className="flex flex-col justify-center py-10">
               <h2
-                className="text-white leading-[1.0] mb-6"
                 style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: "clamp(36px, 4vw, 64px)",
-                  fontWeight: 800,
+                  fontFamily: U,
+                  fontSize: "clamp(38px, 4vw, 70px)",
+                  fontWeight: 300,
+                  color: "#fff",
                   whiteSpace: "pre-line",
+                  lineHeight: 1.0,
+                  letterSpacing: "-0.01em",
+                  marginBottom: "20px",
                 }}
               >
                 {activeWorld.title}
               </h2>
+
+              {/* Quote */}
               <p
-                className="text-white/60 italic leading-relaxed"
                 style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: "clamp(14px, 1.4vw, 20px)",
+                  fontFamily: U,
+                  fontSize: "clamp(13px, 1.1vw, 16px)",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  color: "rgba(255,255,255,0.5)",
                   maxWidth: 460,
+                  lineHeight: 1.5,
                 }}
               >
                 {activeWorld.quote}
               </p>
             </div>
 
-            {/* Two thinkers */}
+            {/* Stats row */}
             <div
-              className="flex items-start justify-between gap-6 pt-6"
-              style={{ borderTop: `1px solid ${activeWorld.accentColorHex}20` }}
+              className="flex items-center gap-0 flex-wrap mb-8"
+              style={{ borderTop: `1px solid rgba(255,255,255,0.08)`, paddingTop: "16px" }}
             >
+              {[
+                activeWorld.scenario,
+                activeWorld.label,
+                activeWorld.dateRange,
+                activeWorld.thinkerCount,
+              ].map((item, i, arr) => (
+                <span key={i} className="flex items-center">
+                  <span
+                    style={{
+                      fontFamily: U,
+                      fontWeight: 700,
+                      fontSize: "10px",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.4)",
+                    }}
+                  >
+                    {item}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <span
+                      style={{
+                        color: "rgba(255,255,255,0.2)",
+                        margin: "0 8px",
+                        fontSize: "10px",
+                      }}
+                    >
+                      •
+                    </span>
+                  )}
+                </span>
+              ))}
+            </div>
+
+            {/* Two thinkers + V/S */}
+            <div className="flex items-start gap-4">
+              {/* Left thinker */}
               <div className="flex-1">
-                <p className="text-white font-bold text-sm mb-0.5">{activeWorld.left.name}</p>
-                <p className="text-white/40 text-xs mb-2">
+                <div
+                  className="inline-block text-xs font-black tracking-widest uppercase px-3 py-1 rounded mb-3"
+                  style={{
+                    fontFamily: U,
+                    color: activeWorld.left.stanceColor,
+                    background: `${activeWorld.left.stanceColor}18`,
+                    border: `1px solid ${activeWorld.left.stanceColor}30`,
+                    fontSize: "9px",
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  {activeWorld.left.stance}
+                </div>
+                <p style={{ fontFamily: U, fontWeight: 700, fontSize: "13px", color: "#fff", marginBottom: "2px" }}>
+                  {activeWorld.left.name}
+                </p>
+                <p style={{ fontFamily: U, fontWeight: 400, fontSize: "11px", color: "rgba(255,255,255,0.38)", marginBottom: "8px" }}>
                   {activeWorld.left.role} · {activeWorld.left.org}
                 </p>
-                <p className="text-white/50 text-xs leading-relaxed" style={{ maxWidth: 220 }}>
-                  {activeWorld.left.description.slice(0, 100)}...
+                <p style={{ fontFamily: U, fontWeight: 400, fontSize: "12px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, maxWidth: 200 }}>
+                  {activeWorld.left.description.slice(0, 90)}…
                 </p>
               </div>
 
-              {/* VS circle */}
+              {/* V/S separator */}
               <div
-                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-black text-xs mt-1"
-                style={{
-                  border: `2px solid ${activeWorld.accentColorHex}`,
-                  color: activeWorld.accentColorHex,
-                  background: `${activeWorld.accentColorHex}15`,
-                }}
+                className="flex-shrink-0 flex flex-col items-center gap-1 pt-8"
               >
-                VS
+                <div
+                  style={{
+                    fontFamily: U,
+                    fontWeight: 900,
+                    fontSize: "13px",
+                    color: activeWorld.accentColorHex,
+                    letterSpacing: "0.05em",
+                    border: `1.5px solid ${activeWorld.accentColorHex}`,
+                    borderRadius: "50%",
+                    width: "38px",
+                    height: "38px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: `${activeWorld.accentColorHex}15`,
+                  }}
+                >
+                  V/S
+                </div>
               </div>
 
+              {/* Right thinker */}
               <div className="flex-1 text-right">
-                <p className="text-white font-bold text-sm mb-0.5">{activeWorld.right.name}</p>
-                <p className="text-white/40 text-xs mb-2">
+                <div className="flex justify-end mb-3">
+                  <div
+                    className="inline-block text-xs font-black tracking-widest uppercase px-3 py-1 rounded"
+                    style={{
+                      fontFamily: U,
+                      color: activeWorld.right.stanceColor,
+                      background: `${activeWorld.right.stanceColor}18`,
+                      border: `1px solid ${activeWorld.right.stanceColor}30`,
+                      fontSize: "9px",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    {activeWorld.right.stance}
+                  </div>
+                </div>
+                <p style={{ fontFamily: U, fontWeight: 700, fontSize: "13px", color: "#fff", marginBottom: "2px" }}>
+                  {activeWorld.right.name}
+                </p>
+                <p style={{ fontFamily: U, fontWeight: 400, fontSize: "11px", color: "rgba(255,255,255,0.38)", marginBottom: "8px" }}>
                   {activeWorld.right.role} · {activeWorld.right.org}
                 </p>
-                <p
-                  className="text-white/50 text-xs leading-relaxed ml-auto"
-                  style={{ maxWidth: 220 }}
-                >
-                  {activeWorld.right.description.slice(0, 100)}...
+                <p style={{ fontFamily: U, fontWeight: 400, fontSize: "12px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, maxWidth: 200, marginLeft: "auto" }}>
+                  {activeWorld.right.description.slice(0, 90)}…
                 </p>
               </div>
             </div>
-
-            {/* Decorative glow */}
-            <div
-              className="absolute top-0 right-0 w-96 h-96 pointer-events-none opacity-20"
-              style={{
-                background: `radial-gradient(circle, ${activeWorld.accentColorHex} 0%, transparent 70%)`,
-                transform: "translate(30%, -30%)",
-              }}
-            />
-            <div
-              className="absolute bottom-0 left-1/3 w-64 h-64 pointer-events-none opacity-10"
-              style={{
-                background: `radial-gradient(circle, ${activeWorld.accentColorHex} 0%, transparent 70%)`,
-                transform: "translateY(30%)",
-              }}
-            />
           </div>
         </div>
       </div>
